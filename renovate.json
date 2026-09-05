@@ -22,6 +22,11 @@
     "prHourlyLimit": 2,
     "branchConcurrentLimit": 10,
 
+    "vulnerabilityAlerts": {
+        "prHourlyLimit": 0,
+        "prConcurrentLimit": 0
+    },
+
     "separateMajorMinor": true,
     "separateMinorPatch": false,
 
