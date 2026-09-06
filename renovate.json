@@ -22,11 +22,6 @@
     "prHourlyLimit": 2,
     "branchConcurrentLimit": 10,
 
-    "vulnerabilityAlerts": {
-        "prHourlyLimit": 0,
-        "prConcurrentLimit": 0
-    },
-
     "separateMajorMinor": true,
     "separateMinorPatch": false,
 
@@ -124,7 +119,9 @@
     "vulnerabilityAlerts": {
         "enabled": true,
         "labels": ["dependencies", "renovate", "security"],
-        "schedule": ["at any time"]
+        "schedule": ["at any time"],
+        "prHourlyLimit": 0,
+        "prConcurrentLimit": 0
     },
 
     "osvVulnerabilityAlerts": true,
