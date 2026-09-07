@@ -130,6 +130,7 @@
 
     "ignoreDeps": [
         "jquery-ui-dist",
-        "materialize-css"
+        "materialize-css",
+        "ajv"
     ]
 }
