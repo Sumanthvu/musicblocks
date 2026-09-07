@@ -32,6 +32,9 @@ jobs:
         name: Lint commit messages
         runs-on: ubuntu-latest
         timeout-minutes: 30
+        # Renovate commit messages follow Conventional Commits automatically.
+        # Skip linting to avoid false failures on bot-generated commits.
+        if: "!startsWith(github.head_ref, 'renovate/')"
         steps:
             - name: Checkout code
               uses: actions/checkout@v4

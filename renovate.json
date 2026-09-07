@@ -32,9 +32,6 @@
 
     "rebaseWhen": "conflicted",
 
-    "commitMessagePrefix": "chore(deps):",
-    "commitMessageAction": "update",
-
     "packageRules": [
         {
             "description": "Group all patch and minor devDependency updates together",
