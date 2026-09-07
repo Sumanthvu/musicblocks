@@ -11,6 +11,9 @@
 
     "forkProcessing": "enabled",
 
+    "npmrc": "legacy-peer-deps=true\nsave-exact=true\npackage-lock=true\nsave=false",
+    "npmrcMerge": true,
+
     "dependencyDashboard": true,
     "dependencyDashboardTitle": "🔄 Renovate Dependency Dashboard",
 
