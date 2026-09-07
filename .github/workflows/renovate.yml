@@ -11,9 +11,14 @@ name: Renovate
 # `issues:write` for the Dependency Dashboard feature.
 
 on:
-    # Run on a weekly schedule (Monday 00:00 UTC = 05:30 IST)
+    # Run on a weekly schedule.
+    # Fires at Sunday 22:00 UTC = Monday 03:30 IST.
+    # This gives Renovate a comfortable 2.5-hour window to finish before
+    # the renovate.json schedule ("before 6am on monday" Asia/Kolkata) closes.
+    # Previously '0 0 * * 1' (Monday 00:00 UTC = 05:30 IST) was too close
+    # to the 06:00 IST deadline; GitHub scheduler delays caused silent skips.
     schedule:
-        - cron: '0 0 * * 1'
+        - cron: '0 22 * * 0'
 
     # Allow manual runs from the Actions tab
     workflow_dispatch:
