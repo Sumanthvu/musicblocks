@@ -240,15 +240,22 @@ jobs:
                   node-version: '22'
                   cache: 'npm'
 
+            - name: Install dependencies
+              # cypress-io/github-action's install-command does not support
+              # bash shell constructs (if/then/fi) — it expects a single
+              # executable. So we install here and tell Cypress to skip install.
+              run: |
+                  if [[ "$GITHUB_HEAD_REF" == renovate/* ]]; then
+                    npm install --legacy-peer-deps
+                  else
+                    npm ci
+                  fi
+              shell: bash
+
             - name: Run Cypress E2E tests
               uses: cypress-io/github-action@v6
               with:
-                  install-command: |
-                      if [[ "$GITHUB_HEAD_REF" == renovate/* ]]; then
-                        npm install --legacy-peer-deps
-                      else
-                        npm ci
-                      fi
+                  install: false
                   start: npm start
                   wait-on: 'http://127.0.0.1:3000'
                   wait-on-timeout: 120
