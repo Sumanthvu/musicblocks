@@ -85,7 +85,13 @@ jobs:
                   cache: 'npm'
 
             - name: Install dependencies
-              run: npm ci
+              run: |
+                  if [[ "$GITHUB_HEAD_REF" == renovate/* ]]; then
+                    npm install --legacy-peer-deps
+                  else
+                    npm ci
+                  fi
+              shell: bash
 
             - name: Get changed JavaScript files
               id: get_files
@@ -151,7 +157,19 @@ jobs:
                   cache: 'npm'
 
             - name: Install dependencies
-              run: npm ci
+              # For Renovate branches the lockfile may be out of sync with
+              # package.json because Renovate's Docker container cannot always
+              # regenerate it correctly for this project's dependency tree.
+              # Use 'npm install' so the actual proposed version gets installed
+              # and the tests can verify it doesn't break anything.
+              # Human branches use strict 'npm ci' for lockfile integrity.
+              run: |
+                  if [[ "$GITHUB_HEAD_REF" == renovate/* ]]; then
+                    npm install --legacy-peer-deps
+                  else
+                    npm ci
+                  fi
+              shell: bash
 
             - name: Build project
               run: npm run build --if-present
@@ -176,7 +194,13 @@ jobs:
                   cache: 'npm'
 
             - name: Install dependencies
-              run: npm ci
+              run: |
+                  if [[ "$GITHUB_HEAD_REF" == renovate/* ]]; then
+                    npm install --legacy-peer-deps
+                  else
+                    npm ci
+                  fi
+              shell: bash
 
             # Coverage thresholds are enforced inside Jest (coverageThreshold in
             # your Jest config), so this step fails the job if coverage drops
@@ -219,7 +243,12 @@ jobs:
             - name: Run Cypress E2E tests
               uses: cypress-io/github-action@v6
               with:
-                  install-command: npm ci
+                  install-command: |
+                      if [[ "$GITHUB_HEAD_REF" == renovate/* ]]; then
+                        npm install --legacy-peer-deps
+                      else
+                        npm ci
+                      fi
                   start: npm start
                   wait-on: 'http://127.0.0.1:3000'
                   wait-on-timeout: 120
