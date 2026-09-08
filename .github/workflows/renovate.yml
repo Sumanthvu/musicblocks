@@ -68,3 +68,18 @@ jobs:
 
                   # Log level – defaults to 'info'; overridable via manual trigger
                   LOG_LEVEL: ${{ github.event.inputs.log_level || 'info' }}
+
+                  # CRITICAL: The renovatebot/github-action runs Renovate inside a
+                  # Docker container with an isolated npm environment. The 'npmrc'
+                  # key in renovate.json is not reliably inherited by npm processes
+                  # inside the container during lockfile generation.
+                  #
+                  # Setting these as environment variables guarantees every npm
+                  # process that Renovate spawns (including 'npm install' for
+                  # lockfile regeneration) inherits the same settings as the
+                  # project's .npmrc file. This prevents corrupted lockfiles where
+                  # packages are missing due to unresolved peer dependency conflicts.
+                  NPM_CONFIG_LEGACY_PEER_DEPS: "true"
+                  NPM_CONFIG_SAVE_EXACT: "true"
+                  NPM_CONFIG_PACKAGE_LOCK: "true"
+                  NPM_CONFIG_SAVE: "false"
