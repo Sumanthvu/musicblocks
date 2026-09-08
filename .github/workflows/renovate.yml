@@ -32,6 +32,11 @@ on:
                     - info
                     - debug
                     - warn
+            force_run:
+                description: 'Ignore schedule and run all updates now (for manual testing)'
+                required: false
+                default: false
+                type: boolean
 
 # Prevent concurrent Renovate runs (they would conflict on the same branches)
 concurrency:
@@ -68,6 +73,12 @@ jobs:
 
                   # Log level – defaults to 'info'; overridable via manual trigger
                   LOG_LEVEL: ${{ github.event.inputs.log_level || 'info' }}
+
+                  # When 'force_run' is checked in the manual trigger, override
+                  # the schedule so Renovate runs all updates regardless of the
+                  # 'before 6am on monday' window in renovate.json. Scheduled
+                  # (cron) runs are unaffected and still follow the schedule.
+                  RENOVATE_FORCE: ${{ github.event.inputs.force_run == 'true' && '{"schedule":null}' || '' }}
 
                   # CRITICAL: The renovatebot/github-action runs Renovate inside a
                   # Docker container with an isolated npm environment. The 'npmrc'
