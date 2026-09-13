@@ -1780,13 +1780,6 @@ class Block {
                             platformColor.blockText
                         );
                         break;
-                    case "rhythmruler":
-                        that.collapseText = new createjs.Text(
-                            _("ruler"),
-                            fontSize + "px Sans",
-                            platformColor.blockText
-                        );
-                        break;
                     case "timbre":
                         that.collapseText = new createjs.Text(
                             _("timbre"),
@@ -3998,7 +3991,7 @@ class Block {
                     if (temperament && typeof temperament === "object") {
                         noteLabels[keys[i]] = temperament;
                     }
-                    if (isCustomTemperament(keys[i]) && temperament && !temperament.isEDO) {
+                    if (isCustomTemperament(keys[i])) {
                         customLabels.push(keys[i]);
                     }
                 }
