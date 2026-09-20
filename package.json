@@ -31,9 +31,9 @@
         "dist": "electron-builder"
     },
     "devDependencies": {
-        "@babel/core": "^7.28.5",
+        "@babel/core": "^8.0.0",
         "@babel/eslint-parser": "^7.28.5",
-        "@babel/preset-env": "^7.29.5",
+        "@babel/preset-env": "^8.0.0",
         "@commitlint/cli": "^19.0.0",
         "@commitlint/config-conventional": "^19.0.0",
         "@stryker-mutator/api": "9.6.1",
