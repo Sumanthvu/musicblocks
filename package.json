@@ -128,7 +128,7 @@
         "@gulp-sourcemaps/identity-map": {
             "postcss": "^8.4.31"
         },
-        "body-parser": "2.3.0",
+        "body-parser": "2.4.0",
         "qs": "6.15.3"
     },
     "lint-staged": {
