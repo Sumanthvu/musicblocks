@@ -1,0 +1,52 @@
+name: Cypress editor search verification
+on:
+    push:
+        branches: [test/cypress-editor-search-actions]
+permissions:
+    contents: read
+jobs:
+    e2e:
+        name: Cypress E2E
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v5
+              with:
+                  node-version: "22"
+                  cache: "npm"
+
+            - name: Install dependencies
+              # cypress-io/github-action's install-command does not support
+              # bash shell constructs (if/then/fi) — it expects a single
+              # executable. So we install here and tell Cypress to skip install.
+              run: |
+                  if [[ "$GITHUB_HEAD_REF" == renovate/* ]]; then
+                    npm install --legacy-peer-deps
+                  else
+                    npm ci
+                  fi
+              shell: bash
+
+            - name: Run Cypress E2E tests
+              uses: cypress-io/github-action@v7
+              with:
+                  install: false
+                  start: npm start
+                  wait-on: "http://127.0.0.1:3000"
+                  wait-on-timeout: 120
+                  browser: chrome
+                  config: video=false
+
+            - name: Upload Cypress screenshots on failure
+              if: failure()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: cypress-screenshots
+                  path: cypress/screenshots
+                  if-no-files-found: ignore
